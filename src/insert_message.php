@@ -13,12 +13,14 @@ $is_valid_author_name = true;
 $input_author_name = '';
 if (isset($_POST['author_name'])) {
     $input_author_name = mb_trim(str_replace("\r\n", "\n", $_POST['author_name']));
+    $_SESSION['input_pre_author_name'] = $_POST['author_name'];
 } else {
     $is_valid_author_name = false;
 }
 
 if ($is_valid_author_name && mb_strlen($input_author_name) > 30) {
     $is_valid_author_name = false;
+    $_SESSION['input_error_author_name'] = 'ニックネームは30文字以内で入力してください．（現在'.mb_strlen($input_author_name).'文字）';
 }
 
 // 入力値を確認する（投稿内容）
@@ -26,16 +28,19 @@ $is_valid_message = true;
 $input_message = '';
 if (isset($_POST['message'])) {
     $input_message = mb_trim(str_replace("\r\n", "\n", $_POST['message']));
+    $_SESSION['input_pre_message'] = $_POST['message'];
 } else {
     $is_valid_message = false;
 }
 
 if ($is_valid_message && $input_message === '') {
     $is_valid_message = false;
+    $_SESSION['input_error_message'] = '投稿内容の入力は必須です．';
 }
 
 if ($is_valid_message && mb_strlen($input_message) > 1000) {
     $is_valid_message = false;
+    $_SESSION['input_error_message'] = '投稿内容は1000文字以下で入力して下さい．（現在'.mb_strlen($input_message).'文字）';
 }
 
 // 投稿をデータベースへ保村する処理
@@ -57,6 +62,10 @@ if ($is_valid_author_name && $is_valid_message) {
 
     // クエリを実行する
     $stmt->execute();
+    $_SESSION['input_error_author_name'] = '';
+    $_SESSION['input_error_message'] = '';
+    $_SESSION['input_pre_author_name'] = '';
+    $_SESSION['input_pre_message'] = '';
 }
 
 header('Location: /');
