@@ -35,6 +35,13 @@ function convert_time_zone($datetime_text) {
         <div class="page-cover">
             <h1 class="page-title">ひとこと掲示板</h1>
             <hr class="page-divider" />
+
+            <?php if ($messages['action_success_text'] !== '') { ?>
+                <div class="action-success-area"><?= $messages['action_success_text']; ?></div>
+            <?php } ?>
+            <?php if ($messages['action_error_text'] !== '') { ?>
+                <div class="action-failed-area"><?= $messages['action_error_text']; ?></div>
+            <?php } ?>
             <div class="form-cover">
                 <form action="/" method="post">
                     <div class="form-input-title">
