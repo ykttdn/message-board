@@ -42,6 +42,7 @@ function convert_time_zone($datetime_text) {
             <?php if ($messages['action_error_text'] !== '') { ?>
                 <div class="action-failed-area"><?= $messages['action_error_text']; ?></div>
             <?php } ?>
+
             <div class="form-cover">
                 <form action="/" method="post">
                     <div class="form-input-title">
@@ -56,39 +57,28 @@ function convert_time_zone($datetime_text) {
                         class="input-author-name"
                     />
                     <?php if ($messages['input_error_author_name'] !== '') { ?>
-                        <div class="form-input-error">
-                            <?= $messages['input_error_author_name']; ?>
-                        </div>
+                        <div class="form-input-error"><?= $messages['input_error_author_name']; ?></div>
                     <?php } ?>
-                    <div class="form-input-title">
-                        <label for="message">投稿内容<small>(必須)</small></label>
-                    </div>
+                    <div class="form-input-title"><label for="message">投稿内容<small>(必須)</small></label></div>
                     <textarea name="message" id="message" class="input-message"><?= htmlspecialchars($messages['input_pre_message'], ENT_QUOTES); ?></textarea>
                     <?php if ($messages['input_error_message'] !== '') { ?>
-                        <div class="form-input-error">
-                            <?= $messages['input_error_message']; ?>
-                        </div>
+                        <div class="form-input-error"><?= $messages['input_error_message']; ?></div>
                     <?php } ?>
                     <input type="hidden" name="action_type" value="insert" />
                     <button type="submit" class="input-submit-button">投稿する</button>
                 </form>
             </div>
             <hr class="page-divider" />
+
             <div class="message-list-cover">
-                <small>
-                    <?= $message_length; ?>件の投稿
-                </small>
+                <small><?= $message_length; ?>件の投稿</small>
 
                 <?php while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) { ?>
                     <?php $lines = explode('\n', $row['message']); ?>
                     <div class="message-item">
                         <div class="message-title">
-                            <div>
-                                <?= htmlspecialchars($row['author_name'], ENT_QUOTES); ?>
-                            </div>
-                            <small>
-                                <?= convert_time_zone($row['created_at']); ?>
-                            </small>
+                            <div><?= htmlspecialchars($row['author_name'], ENT_QUOTES); ?></div>
+                            <small><?= convert_time_zone($row['created_at']); ?></small>
                             <div class="spacer"></div>
                             <form action="/" method="POST" style="text-align: right">
                                 <input type="hidden" name="id" value="<?= $row['id']; ?>" />
@@ -97,9 +87,7 @@ function convert_time_zone($datetime_text) {
                             </form>
                         </div>
                         <?php foreach ($lines as $line) { ?>
-                            <p class="message-line">
-                                <?= htmlspecialchars($line, ENT_QUOTES); ?>
-                            </p>
+                            <p class="message-line"><?= htmlspecialchars($line, ENT_QUOTES); ?></p>
                         <?php } ?>
                     </div>
                 <? } ?>
